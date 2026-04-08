@@ -1,3 +1,4 @@
+import AddToCartButton from "@/components/AddToCartButton";
 import ImageFallback from "@/helpers/ImageFallback";
 import MDXContent from "@/helpers/MDXContent";
 import { getSinglePage } from "@/lib/contentParser";
@@ -18,7 +19,9 @@ export const generateStaticParams: () => { single: string }[] = () => {
   return paths;
 };
 
-const ProductSingle = async (props: { params: Promise<{ single: string }> }) => {
+const ProductSingle = async (props: {
+  params: Promise<{ single: string }>;
+}) => {
   const params = await props.params;
   const products: Product[] = getSinglePage("product");
   const product = products.filter((p) => p.slug === params.single)[0];
@@ -55,8 +58,18 @@ const ProductSingle = async (props: { params: Promise<{ single: string }> }) => 
                     dangerouslySetInnerHTML={markdownify(title)}
                     className="h2 mb-4"
                   />
-                  <p className="mb-4 text-2xl font-bold text-primary">{price}</p>
+                  <p className="mb-4 text-2xl font-bold text-primary">
+                    {price}
+                  </p>
                   <p className="mb-6">{description}</p>
+                  <AddToCartButton
+                    product={{
+                      slug: product.slug!,
+                      title,
+                      price,
+                      image: image || "",
+                    }}
+                  />
                 </div>
               </div>
               <div className="content mb-10 mt-10">

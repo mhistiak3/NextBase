@@ -6,8 +6,9 @@ import config from "@/config/config.json";
 import menu from "@/config/menu.json";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
-import { IoSearch } from "react-icons/io5";
+import React, { useEffect, useState } from "react";
+import { IoSearch, IoCartOutline } from "react-icons/io5";
+import { useCart } from "@/context/CartContext";
 
 //  child navigation link interface
 export interface IChildNavigationLink {
@@ -29,6 +30,12 @@ const Header = () => {
   const { navigation_button, settings } = config;
   // get current path
   const pathname = usePathname();
+  const { cartCount } = useCart();
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // scroll to top on route change
   useEffect(() => {
@@ -163,6 +170,14 @@ const Header = () => {
             </button>
           )}
           <ThemeSwitcher className="mr-5" />
+          <Link href="/cart" className="relative mr-5 text-2xl text-text-dark dark:text-white hover:text-primary dark:hover:text-darkmode-primary inline-block">
+            <IoCartOutline />
+            {mounted && cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-white">
+                {cartCount}
+              </span>
+            )}
+          </Link>
           {navigation_button.enable && (
             <Link
               className="btn btn-outline-primary btn-sm hidden lg:inline-block"

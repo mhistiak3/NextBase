@@ -104,6 +104,19 @@ export default function AdminDashboard() {
                                     <li><strong>Address:</strong> {order.customerInfo.address}</li>
                                     <li><strong>Country:</strong> {order.customerInfo.country}</li>
                                   </ul>
+                                  
+                                  <h4 className="h6 mt-6 mb-3">Payment Info</h4>
+                                  <ul className="text-sm space-y-2">
+                                    <li><strong>Status:</strong> <span className={`px-2 py-1 ml-2 rounded text-xs font-bold uppercase ${
+                                          order.paymentStatus === 'paid' ? 'bg-[#d1fae5] text-[#065f46] dark:bg-[#064e3b] dark:text-[#a7f3d0]' :
+                                          order.paymentStatus === 'failed' ? 'bg-[#fee2e2] text-[#991b1b] dark:bg-[#7f1d1d] dark:text-[#fecaca]' :
+                                          'bg-[#fef3c7] text-[#92400e] dark:bg-[#78350f] dark:text-[#fde68a]'
+                                        }`}>
+                                          {order.paymentStatus}
+                                        </span>
+                                    </li>
+                                    <li><strong>Stripe Session ID:</strong> <span className="text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded">{order.stripeSessionId}</span></li>
+                                  </ul>
                                 </div>
                                 <div>
                                   <h4 className="h6 mb-3">Order Items</h4>
